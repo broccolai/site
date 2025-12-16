@@ -38,6 +38,14 @@ const PoolRow = styled('div', {
     },
 });
 
+const OverlayWrap = styled('div', {
+    base: {
+        transform: 'scale(1.015)',
+        transition: 'transform 120ms ease, filter 120ms ease',
+        filter: 'drop-shadow(0 7px 12px rgba(0,0,0,0.18)) drop-shadow(0 2px 5px rgba(0,0,0,0.12))',
+    },
+});
+
 export default () => {
     const store = useTierStore();
     const dnd = useTierDnd(store.setByTier);
@@ -53,9 +61,9 @@ export default () => {
         }
 
         return (
-            <div style={{ width: `${overlay.layout.width}px`, height: `${overlay.layout.height}px` }}>
+            <OverlayWrap style={{ width: `${overlay.layout.width}px`, height: `${overlay.layout.height}px` }}>
                 <CardView entry={entry} grabbing />
-            </div>
+            </OverlayWrap>
         );
     };
 

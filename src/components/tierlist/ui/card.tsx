@@ -70,6 +70,7 @@ export const TierCardPlaceholder = (props: TierCardPlaceholderProps) => (
 const DragWrap = styled('div', {
     base: {
         touchAction: 'none',
+        transition: 'transform 120ms ease, filter 120ms ease',
     },
 });
 
@@ -84,12 +85,14 @@ export const TierCard = (props: TierCardProps) => {
     const draggable = createDraggable(props.draggableId);
     const [state] = useDragDropContext()!;
 
+    const isDraggingThis = () => draggable.isActiveDraggable;
+
     return (
-        <div ref={droppable}>
+        <div ref={(el) => droppable(el)}>
             <DragWrap
-                ref={draggable}
+                ref={(el) => draggable(el, () => ({ skipTransform: true }))}
+                style={isDraggingThis() ? { opacity: 0, pointerEvents: 'none' } : undefined}
                 classList={{
-                    'opacity-25': draggable.isActiveDraggable,
                     'transition-transform': !!state.active.draggable,
                 }}
             >

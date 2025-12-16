@@ -1,10 +1,11 @@
 import { styled } from '@panda/jsx';
-import { createSignal } from 'solid-js';
+import { createSignal, Show } from 'solid-js';
 
-import { CardShell, CardText } from './card.tsx';
+import { CardShell } from './card';
 
 const AddShell = styled(CardShell, {
     base: {
+        position: 'relative',
         background: 'rgba(255,255,255,0.02)',
         border: '1px dashed rgba(0,0,0,0.18)',
     },
@@ -21,9 +22,21 @@ const AddInput = styled('input', {
         fontSize: '0.95rem',
         textAlign: 'center',
         color: 'rgba(0,0,0,0.85)',
-        _placeholder: {
-            color: 'rgba(0,0,0,0.35)',
-        },
+    },
+});
+
+const Hint = styled('div', {
+    base: {
+        position: 'absolute',
+        inset: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        pointerEvents: 'none',
+        fontFamily: 'PT Mono, ui-monospace, monospace',
+        letterSpacing: '1px',
+        fontSize: '0.95rem',
+        color: 'rgba(0,0,0,0.35)',
     },
 });
 
@@ -32,41 +45,59 @@ export type PoolAddCardProps = {
     placeholder?: string;
 };
 
+const submitIfNonEmpty = (raw: string, submit: (name: string) => void): boolean => {
+    const name = raw.trim();
+    if (!name) {
+        return false;
+    }
+
+    submit(name);
+    return true;
+};
+
 export const PoolAddCard = (props: PoolAddCardProps) => {
     const [value, setValue] = createSignal('');
+    const [focused, setFocused] = createSignal(false);
+
+    const clear = () => setValue('');
 
     const submit = () => {
-        const name = value().trim();
-        if (!name) {
-            return;
-        }
-
-        props.onSubmit(name);
-        setValue('');
-    };
-
-    const onKeyDown: JSX.EventHandler<HTMLInputElement, KeyboardEvent> = (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            submit();
-            return;
-        }
-
-        if (e.key === 'Escape') {
-            e.preventDefault();
-            setValue('');
-            return;
+        const didSubmit = submitIfNonEmpty(value(), props.onSubmit);
+        if (didSubmit) {
+            clear();
         }
     };
+
+    const onKeyDown = (e: KeyboardEvent & { currentTarget: HTMLInputElement }) => {
+        switch (e.key) {
+            case 'Enter': {
+                e.preventDefault();
+                submit();
+                return;
+            }
+            case 'Escape': {
+                e.preventDefault();
+                clear();
+                return;
+            }
+        }
+    };
+
+    const showHint = () => !focused() && value().length === 0;
 
     return (
         <AddShell>
-            {/* we use CardText only as a sizing/typography reference, not rendered */}
+            <Show when={showHint()}>
+                <Hint>{props.placeholder ?? 'type an artist…'}</Hint>
+            </Show>
+
             <AddInput
                 value={value()}
                 onInput={(e) => setValue(e.currentTarget.value)}
                 onKeyDown={onKeyDown}
-                placeholder={props.placeholder ?? 'type an artist…'}
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
+                placeholder=''
                 autocomplete='off'
                 spellcheck={false}
             />
