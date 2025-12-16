@@ -1,7 +1,7 @@
 import type { DragEvent, Id } from '@thisbeyond/solid-dnd';
 
-import type { ByTier } from './types';
-import { moveEntry, parseDropTarget } from './dnd';
+import type { ByTier } from './types.ts';
+import { moveEntry, parseDropTarget } from './dnd.tsx';
 
 const asEntryId = (id: Id): string | undefined => {
     if (typeof id !== 'string') {

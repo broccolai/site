@@ -1,5 +1,5 @@
-import type { ByTier, Entry, TierId } from './types';
-import { ALL_BUCKETS, emptyBuckets } from './types';
+import type { ByTier, Entry, TierId } from './types.ts';
+import { ALL_BUCKETS, emptyBuckets } from './types.ts';
 
 const STORAGE_KEY = 'tierlist:v1';
 

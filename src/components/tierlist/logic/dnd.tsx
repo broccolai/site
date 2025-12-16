@@ -1,6 +1,6 @@
 import type { Id } from '@thisbeyond/solid-dnd';
-import type { ByTier, Entry, TierId } from './types';
-import { ALL_BUCKETS } from './types';
+import type { ByTier, Entry, TierId } from './types.ts';
+import { ALL_BUCKETS } from './types.ts';
 
 const SEP = '::';
 const TIER_END = 'tier';

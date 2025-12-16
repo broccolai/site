@@ -1,4 +1,4 @@
-import type { TierId } from './types';
+import type { TierId } from './types.ts';
 
 export function hashToHsl(input: string): string {
     let h = 0;

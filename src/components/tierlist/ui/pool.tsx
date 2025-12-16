@@ -1,11 +1,10 @@
 import { createDroppable } from '@thisbeyond/solid-dnd';
-import { For, Show } from 'solid-js';
-
-import type { Entry } from './types';
-import { beforeId, tierEndId } from './dnd';
-import { TierCard, TierCardPlaceholder } from './card';
-import { Pool } from './styles';
-import { PoolAddCard } from './pool-add-card';
+import { For } from 'solid-js';
+import { beforeId, tierEndId } from '../logic/dnd.tsx';
+import { Pool } from '../logic/styles.ts';
+import type { Entry } from '../logic/types.ts';
+import { TierCard } from './card.tsx';
+import { PoolAddCard } from './pool-add-card.tsx';
 
 export type TierListPoolProps = {
     entries: Entry[];
@@ -22,10 +21,6 @@ export const TierListPool = (props: TierListPoolProps) => {
             <For each={props.entries}>
                 {(entry) => <TierCard entry={entry} draggableId={entry.id} beforeDroppableId={beforeId('POOL', entry.id)} />}
             </For>
-
-            <Show when={props.entries.length === 0}>
-                <TierCardPlaceholder />
-            </Show>
         </Pool>
     );
 };

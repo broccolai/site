@@ -1,7 +1,7 @@
 import { styled } from '@panda/jsx';
 import { createSignal } from 'solid-js';
 
-import { CardShell, CardText } from './card';
+import { CardShell, CardText } from './card.tsx';
 
 const AddShell = styled(CardShell, {
     base: {

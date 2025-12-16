@@ -1,11 +1,11 @@
 import { createDroppable } from '@thisbeyond/solid-dnd';
 import { For, Show } from 'solid-js';
 
-import type { Entry, TierId } from './types';
-import { beforeId, tierEndId } from './dnd';
-import { TierCard, TierCardPlaceholder } from './card';
-import { TierDrop, TierLabel, TierRow } from './styles';
-import { tierPastel } from './utils';
+import type { Entry, TierId } from '../logic/types.ts';
+import { beforeId, tierEndId } from '../logic/dnd.tsx';
+import { TierCard, TierCardPlaceholder } from './card.tsx';
+import { TierDrop, TierLabel, TierRow } from '../logic/styles.ts';
+import { tierPastel } from '../logic/utils.ts';
 
 export type TierRowProps = {
     tier: TierId;

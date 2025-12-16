@@ -1,7 +1,7 @@
 import { createDroppable, useDragDropContext } from '@thisbeyond/solid-dnd';
 import { styled } from '@panda/jsx';
 import { createMemo } from 'solid-js';
-import { trashId } from './dnd';
+import { trashId } from '../logic/dnd.tsx';
 
 const TrashBox = styled('div', {
     base: {

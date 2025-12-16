@@ -1,9 +1,9 @@
 import type { Draggable } from '@thisbeyond/solid-dnd';
 import { createEffect, createSignal, onCleanup, onMount } from 'solid-js';
-import { clearSavedTierList, loadTierList, saveTierList } from './storage';
-import type { ByTier, Entry } from './types';
-import { ALL_BUCKETS, emptyBuckets } from './types';
-import { randomPastel, uid } from './utils';
+import { clearSavedTierList, loadTierList, saveTierList } from './storage.ts';
+import type { ByTier, Entry } from './types.ts';
+import { ALL_BUCKETS, emptyBuckets } from './types.ts';
+import { randomPastel, uid } from './utils.ts';
 
 const findEntry = (state: ByTier, entryId: string): Entry | undefined => {
     for (const tier of ALL_BUCKETS) {

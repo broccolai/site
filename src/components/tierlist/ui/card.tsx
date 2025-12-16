@@ -2,7 +2,7 @@ import type { Id } from '@thisbeyond/solid-dnd';
 import { createDraggable, createDroppable, useDragDropContext } from '@thisbeyond/solid-dnd';
 import { styled } from '@panda/jsx';
 
-import type { Entry } from './types';
+import type { Entry } from '../logic/types';
 
 export const CardShell = styled('div', {
     base: {
@@ -32,18 +32,16 @@ export const CardText = styled('div', {
     },
 });
 
-export type CardViewProps = Readonly<{
+type CardViewProps = {
     entry: Entry;
     grabbing?: boolean;
-}>;
-
-export const CardView = (props: CardViewProps) => {
-    return (
-        <CardShell style={{ background: props.entry.bg, cursor: props.grabbing ? 'grabbing' : undefined }}>
-            <CardText>{props.entry.name}</CardText>
-        </CardShell>
-    );
 };
+
+export const CardView = (props: CardViewProps) => (
+    <CardShell style={{ background: props.entry.bg, cursor: props.grabbing ? 'grabbing' : undefined }}>
+        <CardText>{props.entry.name}</CardText>
+    </CardShell>
+);
 
 const PlaceholderShell = styled(CardShell, {
     base: {
@@ -59,19 +57,27 @@ const PlaceholderText = styled(CardText, {
     },
 });
 
-export const TierCardPlaceholder = () => {
-    return (
-        <PlaceholderShell>
-            <PlaceholderText>drop here</PlaceholderText>
-        </PlaceholderShell>
-    );
+type TierCardPlaceholderProps = {
+    text?: string;
 };
 
-export type TierCardProps = Readonly<{
+export const TierCardPlaceholder = (props: TierCardPlaceholderProps) => (
+    <PlaceholderShell>
+        <PlaceholderText>{props.text ?? 'drop here'}</PlaceholderText>
+    </PlaceholderShell>
+);
+
+const DragWrap = styled('div', {
+    base: {
+        touchAction: 'none',
+    },
+});
+
+type TierCardProps = {
     entry: Entry;
     draggableId: Id;
     beforeDroppableId: Id;
-}>;
+};
 
 export const TierCard = (props: TierCardProps) => {
     const droppable = createDroppable(props.beforeDroppableId);
@@ -80,16 +86,15 @@ export const TierCard = (props: TierCardProps) => {
 
     return (
         <div ref={droppable}>
-            <div
+            <DragWrap
                 ref={draggable}
-                style={{ 'touch-action': 'none' }}
                 classList={{
                     'opacity-25': draggable.isActiveDraggable,
                     'transition-transform': !!state.active.draggable,
                 }}
             >
                 <CardView entry={props.entry} />
-            </div>
+            </DragWrap>
         </div>
     );
 };

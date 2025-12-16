@@ -1,14 +1,14 @@
 import { styled } from '@panda/jsx';
-import { Draggable, DragOverlay as DragOverlayType } from '@thisbeyond/solid-dnd';
+import type { Draggable } from '@thisbeyond/solid-dnd';
 import { DragDropProvider, DragDropSensors, DragOverlay } from '@thisbeyond/solid-dnd';
 import { For } from 'solid-js';
-import { CardView } from './card';
-import { TierListPool } from './pool';
-import { useTierDnd } from './tier-dnd';
-import { TierListTierRow } from './tier-row';
-import { useTierStore } from './tier-store';
-import { TrashDrop } from './trash-drop';
-import { TIERS } from './types';
+import { useTierDnd } from './logic/tier-dnd.ts';
+import { useTierStore } from './logic/tier-store.ts';
+import { TrashDrop } from './ui/trash-drop.tsx';
+import { TIERS } from './logic/types.ts';
+import { CardView } from './ui/card.tsx';
+import { TierListPool } from './ui/pool.tsx';
+import { TierListTierRow } from './ui/tier-row.tsx';
 
 const Page = styled('div', {
     base: {
