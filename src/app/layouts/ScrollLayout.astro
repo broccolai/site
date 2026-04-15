@@ -1,0 +1,10 @@
+---
+import { getPageChrome } from '@/app/site';
+import SiteShell from '@/app/layouts/SiteShell.astro';
+const { title } = Astro.props;
+const chrome = getPageChrome('tierList');
+---
+
+<SiteShell title={title} headerTitle={chrome.headerTitle} alwaysShowHeader={chrome.alwaysShowHeader}>
+    <slot />
+</SiteShell>

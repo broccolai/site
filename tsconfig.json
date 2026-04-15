@@ -1,17 +1,19 @@
 {
-  "extends": "astro/tsconfigs/strictest",
-  "compilerOptions": {
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-    "baseUrl": ".",
-    "paths": {
-      "@panda/*": ["src/@panda/*"]
+    "extends": "astro/tsconfigs/strictest",
+    "compilerOptions": {
+        "jsx": "preserve",
+        "jsxImportSource": "solid-js",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"],
+            "@/app/*": ["src/app/*"],
+            "@/features/*": ["src/features/*"],
+            "@/shared/*": ["src/shared/*"],
+            "@panda/*": [".panda/*"]
+        },
+        "verbatimModuleSyntax": false,
+        "isolatedModules": false,
+        "types": ["unplugin-icons/types/solid"]
     },
-    "verbatimModuleSyntax": false,
-    "isolatedModules": false,
-    "types": [
-      "unplugin-icons/types/solid",
-    ]
-  },
-  "exclude": ["dist"]
+    "exclude": ["dist"]
 }

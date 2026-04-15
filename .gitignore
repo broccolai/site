@@ -5,7 +5,7 @@ dist
 .vercel
 .netlify
 netlify
-src/@panda
+.panda
 .env
 .astro
 
@@ -28,5 +28,6 @@ gitignore
 Thumbs.db
 
 ## Panda
-./src/@panda
-./src/@panda-studio
+.panda
+.panda-studio
+.serena

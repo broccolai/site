@@ -1,8 +1,23 @@
 {
-    "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+    "$schema": "https://biomejs.dev/schemas/2.3.9/schema.json",
     "assist": { "actions": { "source": { "organizeImports": "on" } } },
     "files": {
-        "includes": ["**", "!src/@panda"]
+        "includes": [
+            "src/**/*.ts",
+            "src/**/*.tsx",
+            "src/**/*.css",
+            "README.md",
+            "package.json",
+            "tsconfig.json",
+            "biome.json",
+            "panda.config.ts",
+            "astro.config.ts",
+            "postcss.config.cjs",
+            "!.panda",
+            "!.astro",
+            "!dist",
+            "!.vercel"
+        ]
     },
     "linter": {
         "enabled": true,

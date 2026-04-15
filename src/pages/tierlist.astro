@@ -1,9 +1,9 @@
 ---
-import '../styles/index.css';
-import TierList from '../components/tierlist/tierlist';
-import ScrollLayout from 'src/layout/scroll-layout.astro';
+import '@/app/styles/global.css';
+import ScrollLayout from '@/app/layouts/ScrollLayout.astro';
+import { TierListPage } from '@/features/tier-list';
 ---
 
 <ScrollLayout title="Tier List">
-    <TierList client:load />
+    <TierListPage client:load />
 </ScrollLayout>
