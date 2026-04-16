@@ -1,7 +1,7 @@
 import type { Id } from '@thisbeyond/solid-dnd';
 import type { ByTier, Entry } from '@/features/tier-list/model/types';
 import { ALL_BUCKETS } from '@/features/tier-list/model/types';
-import { randomPastel, uid } from '@/features/tier-list/model/utils';
+import { uid } from '@/features/tier-list/model/utils';
 
 export const findEntryById = (state: ByTier, entryId: string): Entry | undefined => {
     for (const tier of ALL_BUCKETS) {
@@ -33,6 +33,5 @@ export const createEntry = (rawName: string): Entry | undefined => {
     return {
         id: uid(),
         name,
-        bg: randomPastel(),
     };
 };

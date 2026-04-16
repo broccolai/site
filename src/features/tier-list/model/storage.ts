@@ -1,55 +1,49 @@
-import type { ByTier, Entry } from '@/features/tier-list/model/types';
-import { ALL_BUCKETS } from '@/features/tier-list/model/types';
+import { parseTierListDocument } from '@/features/tier-list/model/document';
+import type { TierListDocument } from '@/features/tier-list/model/types';
 
-const STORAGE_KEY = 'tierlist:v1';
+const STORAGE_KEY = 'tierlist:v2';
+const LEGACY_STORAGE_KEY = 'tierlist:v1';
 
-type Stored = Readonly<{
-    v: 1;
-    byTier: ByTier;
-}>;
-
-const isEntry = (x: unknown): x is Entry => {
-    if (!x || typeof x !== 'object') return false;
-    const e = x as Entry;
-    return typeof e.id === 'string' && typeof e.name === 'string' && typeof e.bg === 'string';
-};
-
-const isByTier = (x: unknown): x is ByTier => {
-    if (!x || typeof x !== 'object') return false;
-    const obj = x as Record<string, unknown>;
-    for (const t of ALL_BUCKETS) {
-        const list = obj[t];
-        if (!Array.isArray(list)) return false;
-        if (!list.every(isEntry)) return false;
+const getStoredRaw = (): string | null => {
+    if (typeof window === 'undefined') {
+        return null;
     }
-    return true;
+
+    return window.localStorage.getItem(STORAGE_KEY) ?? window.localStorage.getItem(LEGACY_STORAGE_KEY);
 };
 
-export const loadTierList = (): ByTier | null => {
-    if (typeof window === 'undefined') return null;
+export const loadTierListDocument = (): TierListDocument | null => {
+    if (typeof window === 'undefined') {
+        return null;
+    }
 
     try {
-        const raw = window.localStorage.getItem(STORAGE_KEY);
-        if (!raw) return null;
+        const raw = getStoredRaw();
 
-        const parsed = JSON.parse(raw) as Partial<Stored>;
-        if (parsed.v !== 1) return null;
-        if (!isByTier(parsed.byTier)) return null;
+        if (!raw) {
+            return null;
+        }
 
-        return parsed.byTier;
+        return parseTierListDocument(JSON.parse(raw));
     } catch {
         return null;
     }
 };
 
-export const saveTierList = (byTier: ByTier): void => {
-    if (typeof window === 'undefined') return;
+export const saveTierListDocument = (document: TierListDocument): void => {
+    if (typeof window === 'undefined') {
+        return;
+    }
 
-    const payload: Stored = { v: 1, byTier };
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(document));
+    window.localStorage.removeItem(LEGACY_STORAGE_KEY);
 };
 
 export const clearSavedTierList = (): void => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') {
+        return;
+    }
+
     window.localStorage.removeItem(STORAGE_KEY);
+    window.localStorage.removeItem(LEGACY_STORAGE_KEY);
 };

@@ -21,6 +21,16 @@ const Pane = styled('div', {
     },
 });
 
+const isTypingTarget = (target: EventTarget | null): boolean => {
+    if (!(target instanceof HTMLElement)) {
+        return false;
+    }
+
+    const tagName = target.tagName;
+
+    return tagName === 'INPUT' || tagName === 'TEXTAREA' || tagName === 'SELECT' || target.isContentEditable;
+};
+
 const PanelScroller = (props: { count: number; children: JSXElement }) => {
     const panelsCount = props.count;
     const windowSize = createWindowSize();
@@ -52,6 +62,20 @@ const PanelScroller = (props: { count: number; children: JSXElement }) => {
         if (event.deltaY > 40) {
             panel.changePanel(1);
         } else if (event.deltaY < -40) {
+            panel.changePanel(-1);
+        }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+        if (isTypingTarget(event.target)) {
+            return;
+        }
+
+        if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            panel.changePanel(1);
+        } else if (event.key === 'ArrowUp') {
+            event.preventDefault();
             panel.changePanel(-1);
         }
     };
@@ -116,6 +140,7 @@ const PanelScroller = (props: { count: number; children: JSXElement }) => {
     return (
         <>
             <WindowEventListener
+                onKeydown={handleKeyDown}
                 onWheel={handleScroll}
                 onTouchstart={(event) => handleSwipe(event.changedTouches[0]?.screenY, true)}
                 onTouchend={(event) => handleSwipe(event.changedTouches[0]?.screenY, false)}

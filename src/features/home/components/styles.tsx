@@ -2,6 +2,8 @@ import { styled } from '@panda/jsx';
 import { PAGE_BANNER_HEIGHT } from '@/shared/ui/layout';
 import { DISPLAY_FONT_FAMILY, MONO_FONT_FAMILY, UI_FONT_FAMILY } from '@/shared/ui/primitives';
 
+export const HOME_SURFACE_RADIUS = '0.55rem';
+
 export const HomePanel = styled('section', {
     base: {
         '--home-panel-horizontal-inset': 'clamp(1.25rem, 3vw, 2.5rem)',
@@ -41,6 +43,7 @@ export const DocumentSurface = styled('div', {
         maxHeight: 'calc(100vh - (var(--home-panel-vertical-inset) * 2))',
         padding: 'clamp(1.35rem, 2.2vw, 2rem)',
         background: 'rgba(250, 248, 243, 0.98)',
+        borderRadius: HOME_SURFACE_RADIUS,
         border: '1px solid rgba(9, 11, 16, 0.16)',
         boxShadow: '0 10px 40px rgba(0, 0, 0, 0.05)',
         display: 'grid',

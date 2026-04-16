@@ -31,6 +31,8 @@ export const shouldShowPanelHeaderTitle = (alwaysShow: boolean): boolean => {
     return state.currentPanel > FIRST_PANEL && !state.transitioning;
 };
 
+export const getCurrentPanel = (): number => panelState().currentPanel;
+
 export const createPanelSystemApi = (
     panelCount: number,
     getPanelHeight: () => number,

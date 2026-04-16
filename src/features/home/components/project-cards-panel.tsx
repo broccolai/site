@@ -1,6 +1,6 @@
 import { styled } from '@panda/jsx';
 import { createMemo, createSignal, For, onMount, Show } from 'solid-js';
-import { ConstructionGrid, HomePanel } from '@/features/home/components/styles';
+import { ConstructionGrid, HOME_SURFACE_RADIUS, HomePanel } from '@/features/home/components/styles';
 import { MONO_FONT_FAMILY, UI_FONT_FAMILY } from '@/shared/ui/primitives';
 
 type ProjectCard = {
@@ -208,14 +208,15 @@ const ProjectField = styled('div', {
     base: {
         position: 'relative',
         zIndex: '2',
-        width: '100%',
+        width: 'min(1180px, 100%)',
         height: '100%',
-        paddingInline: 'clamp(1.25rem, 3vw, 2.5rem)',
+        paddingInline: '0',
         paddingBlock: 'max(calc(var(--home-panel-vertical-inset) + 1rem), 5rem) 4rem',
         display: 'grid',
         alignItems: 'center',
         '@media (max-width: 900px)': {
-            paddingInline: '1.25rem',
+            width: '100%',
+            paddingInline: '0',
             paddingBlock: 'max(calc(var(--home-panel-vertical-inset) + 0.75rem), 4rem) 2rem',
         },
     },
@@ -249,7 +250,7 @@ const ProjectShell = styled('button', {
         width: '100%',
         minHeight: '100%',
         background: 'transparent',
-        borderRadius: '0.55rem',
+        borderRadius: HOME_SURFACE_RADIUS,
         boxShadow: 'inset 0 0 0 1px rgba(9, 11, 16, 0.12)',
         textAlign: 'left',
         cursor: 'pointer',

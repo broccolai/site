@@ -8,7 +8,7 @@ import '@fontsource/sora/600.css';
 import '@fontsource/sora/700.css';
 
 import { SITE } from '@/app/site';
-import { FlexSection } from '@/shared/ui/layout';
+import { DocumentSection, FlexSection } from '@/shared/ui/layout';
 import { Header } from '@/shared/ui/navigation';
 import { PanelScroller } from '@/shared/ui/panel-system';
 
@@ -31,18 +31,18 @@ const {
         {SITE.preconnectOrigins.map((origin) => <link rel='preconnect' href={origin} />)}
     </head>
     <body>
-        <FlexSection>
-            {usePanelScroller ? (
+        {usePanelScroller ? (
+            <FlexSection>
                 <PanelScroller client:load count={panelCount}>
                     <Header client:visible alwaysShow={alwaysShowHeader} title={headerTitle} />
                     <slot />
                 </PanelScroller>
-            ) : (
-                <>
-                    <Header client:visible alwaysShow={alwaysShowHeader} title={headerTitle} />
-                    <slot />
-                </>
-            )}
-        </FlexSection>
+            </FlexSection>
+        ) : (
+            <DocumentSection>
+                <Header client:visible alwaysShow={alwaysShowHeader} title={headerTitle} />
+                <slot />
+            </DocumentSection>
+        )}
     </body>
 </html>

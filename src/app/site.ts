@@ -11,7 +11,7 @@ export const PAGE_CHROME = {
         panelCount: 3,
     },
     tierList: {
-        headerTitle: '// tier list',
+        headerTitle: '',
         alwaysShowHeader: true,
     },
 } as const;

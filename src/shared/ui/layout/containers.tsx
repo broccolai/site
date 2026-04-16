@@ -36,3 +36,11 @@ export const FlexSection = styled('section', {
         justifyContent: 'center',
     },
 });
+
+export const DocumentSection = styled('section', {
+    base: {
+        display: 'block',
+        width: '100%',
+        minHeight: '100vh',
+    },
+});

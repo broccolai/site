@@ -8,28 +8,12 @@ export function uid(): string {
     return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
-export function randomPastel(): string {
-    const hue = Math.floor(Math.random() * 360);
-    const sat = 60 + Math.floor(Math.random() * 18);
-    const light = 86 + Math.floor(Math.random() * 8);
-    return `hsl(${hue} ${sat}% ${light}%)`;
-}
-
-const TIER_ORDER: TierId[] = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
-
-function lerp(a: number, b: number, t: number) {
-    return a + (b - a) * t;
-}
-
-export function tierPastel(tier: TierId): string {
-    if (tier === 'POOL') return 'rgba(255,255,255,0.04)';
-
-    const idx = TIER_ORDER.indexOf(tier);
-    const t = idx <= 0 ? 0 : idx / (TIER_ORDER.length - 1);
-
-    const hue = Math.round(lerp(0, 140, t));
-    const sat = 70;
-    const light = 88;
-
-    return `hsl(${hue} ${sat}% ${light}%)`;
-}
+export const TIER_THEME: Record<Exclude<TierId, 'POOL'>, { label: string; accent: string; surface: string }> = {
+    S: { label: 'S', accent: '#f5a5a5', surface: '#f9e5e5' },
+    A: { label: 'A', accent: '#f5a5a5', surface: '#f9e5e5' },
+    B: { label: 'B', accent: '#f5a5a5', surface: '#f9e5e5' },
+    C: { label: 'C', accent: '#f5a5a5', surface: '#f9e5e5' },
+    D: { label: 'D', accent: '#f5a5a5', surface: '#f9e5e5' },
+    E: { label: 'E', accent: '#f5a5a5', surface: '#f9e5e5' },
+    F: { label: 'F', accent: '#f5a5a5', surface: '#f9e5e5' },
+};

@@ -1,5 +1,6 @@
 import { createEffect, onCleanup, onMount } from 'solid-js';
-import { loadTierList, saveTierList } from '@/features/tier-list/model/storage';
+import { createTierListDocument } from '@/features/tier-list/model/document';
+import { loadTierListDocument, saveTierListDocument } from '@/features/tier-list/model/storage';
 import type { ByTier } from '@/features/tier-list/model/types';
 
 const debounce = (fn: () => void, ms: number) => {
@@ -13,10 +14,10 @@ const debounce = (fn: () => void, ms: number) => {
 
 export const useHydratedTierList = (setByTier: (value: ByTier) => void): void => {
     onMount(() => {
-        const saved = loadTierList();
+        const saved = loadTierListDocument();
 
         if (saved) {
-            setByTier(saved);
+            setByTier(saved.byTier);
         }
     });
 };
@@ -24,7 +25,7 @@ export const useHydratedTierList = (setByTier: (value: ByTier) => void): void =>
 export const usePersistedTierList = (byTier: () => ByTier): void => {
     createEffect(() => {
         const snapshot = byTier();
-        const cancel = debounce(() => saveTierList(snapshot), 140);
+        const cancel = debounce(() => saveTierListDocument(createTierListDocument(snapshot)), 140);
         onCleanup(cancel);
     });
 };
