@@ -1,16 +1,19 @@
-
+`
 dist
 .solid
 .output
 .vercel
 .netlify
 netlify
-src/@panda
+.panda
 .env
 .astro
 
 # dependencies
 /node_modules
+/bun.lock
+/bun.lockb
+/package-lock.json
 .package-lock.json
 
 # IDEs and editors
@@ -28,5 +31,6 @@ gitignore
 Thumbs.db
 
 ## Panda
-./src/@panda
-./src/@panda-studio
+.panda
+.panda-studio
+.serena
