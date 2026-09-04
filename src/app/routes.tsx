@@ -1,6 +1,7 @@
 import type { JSX } from '@solidjs/web';
 import { HomePage } from '@/features/home';
 import { LotusPage } from '@/features/lotus';
+import { TierListPage } from '@/features/tier-list';
 import { centeredPage } from '@/shared/ui/page-shell';
 import { defaultPageMetadata, type PageMetadata, pageTitle } from './site-metadata';
 
@@ -29,6 +30,11 @@ const routes: SiteRoute[] = [
         path: '/lotus',
         metadata: { title: pageTitle('lotus'), description: 'Lotus dock and app search demo.' },
         page: LotusPage,
+    },
+    {
+        path: '/tier-list',
+        metadata: { title: pageTitle('tier list'), description: 'A local, persistent tier-list ranking sheet.' },
+        page: TierListPage,
     },
 ];
 
