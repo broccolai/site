@@ -1,19 +1,20 @@
 {
-    "extends": "astro/tsconfigs/strictest",
     "compilerOptions": {
+        "target": "ES2022",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "strict": true,
         "jsx": "preserve",
-        "jsxImportSource": "solid-js",
-        "baseUrl": ".",
+        "jsxImportSource": "@solidjs/web",
         "paths": {
-            "@/*": ["src/*"],
-            "@/app/*": ["src/app/*"],
-            "@/features/*": ["src/features/*"],
-            "@/shared/*": ["src/shared/*"],
-            "@panda/*": [".panda/*"]
+            "@/*": ["./src/*"],
+            "@panda/*": ["./.panda/*"]
         },
-        "verbatimModuleSyntax": false,
-        "isolatedModules": false,
-        "types": ["unplugin-icons/types/solid"]
+        "noEmit": true,
+        "verbatimModuleSyntax": true,
+        "isolatedModules": true,
+        "skipLibCheck": true
     },
+    "include": ["src/**/*.ts", "src/**/*.tsx"],
     "exclude": ["dist"]
 }

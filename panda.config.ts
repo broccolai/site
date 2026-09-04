@@ -3,29 +3,24 @@ import { defineConfig } from '@pandacss/dev';
 export default defineConfig({
     eject: false,
     preflight: false,
-    //  minify: true,
     hash: true,
-    include: ['./src/**/*.{js,jsx,ts,tsx,astro}'],
-    exclude: [],
-    jsxFramework: 'solid',
+    include: ['./src/**/*.{ts,tsx}'],
     outdir: './.panda',
 
     theme: {
+        keyframes: {
+            'home-bounce': {
+                from: { transform: 'translateY(0)' },
+                to: { transform: 'translateY(0.4rem)' },
+            },
+        },
         tokens: {
             colors: {
-                orange: { value: '#e64a19' },
-                white: { value: '#f9f9f9' },
                 smoke: { value: '#f5f5f5' },
                 black: { value: '#1C1E20' },
-                gray: { value: '#333333' },
                 soft: { value: '#474747' },
                 cyan: { value: '#B4F2E2' },
-                blue: { value: '#1976d2' },
-                green: { value: '#00b358' },
-                lime: { value: '#74e600' },
                 purple: { value: '#7b1fa2' },
-                red: { value: '#d6063d' },
-                yellow: { value: '#ffea00' },
                 accent: { value: '#f5a5a5' },
             },
         },

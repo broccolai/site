@@ -1,4 +1,4 @@
-
+`
 dist
 .solid
 .output
@@ -11,6 +11,9 @@ netlify
 
 # dependencies
 /node_modules
+/bun.lock
+/bun.lockb
+/package-lock.json
 .package-lock.json
 
 # IDEs and editors
