@@ -9,7 +9,7 @@ export const lotusPage = css({
     gridTemplateRows: 'auto 1fr auto',
     color: '#f7f8fb',
     backgroundColor: '#09101d',
-    backgroundImage: 'url("/lotus/main-desktop-wallpaper.png")',
+    backgroundImage: 'url("/lotus/main-desktop-wallpaper.avif")',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',

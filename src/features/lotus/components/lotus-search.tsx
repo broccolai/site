@@ -83,7 +83,7 @@ export function LotusSearch(props: LotusSearchProps) {
                 </For>
             </div>
             <footer class={searchFooter}>
-                <span class={footerLabel}>Lotus</span>
+                <span class={footerLabel}>lotus</span>
                 <time class={clock}>{props.time}</time>
             </footer>
         </section>
