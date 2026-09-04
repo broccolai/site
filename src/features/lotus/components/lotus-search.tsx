@@ -61,23 +61,23 @@ export function LotusSearch(props: LotusSearchProps) {
                 />
             </div>
             <div class={resultList}>
-                <For each={props.apps} fallback={<div class={emptyResults}>No applications found</div>}>
+                <For each={props.apps} keyed={(app) => app.id} fallback={<div class={emptyResults}>No applications found</div>}>
                     {(app) => (
                         <button
                             type='button'
                             tabindex={-1}
                             class={resultRow}
-                            data-selected={app.id === props.selectedId ? 'true' : 'false'}
+                            data-selected={app().id === props.selectedId ? 'true' : 'false'}
                             onMouseDown={(event) => event.preventDefault()}
                             onClick={() => {
-                                props.onSelect(app.id);
-                                props.onActivate(app);
+                                props.onSelect(app().id);
+                                props.onActivate(app());
                             }}
                         >
                             <span class={iconColumn}>
-                                <AppIcon name={app.name} src={app.icon} size={26} />
+                                <AppIcon name={app().name} src={app().icon} size={26} />
                             </span>
-                            <span class={resultName}>{app.name}</span>
+                            <span class={resultName}>{app().name}</span>
                         </button>
                     )}
                 </For>

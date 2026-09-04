@@ -18,13 +18,13 @@ export function LotusDock(props: LotusDockProps) {
             </span>
             <span class={dockDivider} />
             <ul class={dockApps}>
-                <For each={props.apps}>
+                <For each={props.apps} keyed={(app) => app.id}>
                     {(app) => (
                         <li class={dockItem}>
-                            <button class={dockButton} type='button' onClick={() => props.onActivate(app)}>
-                                <AppIcon name={app.name} src={app.icon} size={38} />
+                            <button class={dockButton} type='button' onClick={() => props.onActivate(app())}>
+                                <AppIcon name={app().name} src={app().icon} size={38} />
                             </button>
-                            <Show when={app.running}>
+                            <Show when={app().running}>
                                 <span class={runningIndicator} />
                             </Show>
                         </li>

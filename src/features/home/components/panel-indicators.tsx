@@ -1,4 +1,4 @@
-import { For } from 'solid-js';
+import { Repeat } from 'solid-js';
 import { indicatorButton, indicatorDot, indicators } from './panel-indicators.styles';
 
 interface PanelIndicatorsProps {
@@ -8,11 +8,9 @@ interface PanelIndicatorsProps {
 }
 
 const PanelIndicators = (props: PanelIndicatorsProps) => {
-    const panels = () => Array.from({ length: props.count }, (_, index) => index + 1);
-
     return (
         <nav class={indicators}>
-            <For each={panels()}>
+            <Repeat count={props.count} from={1}>
                 {(panel) => (
                     <button type='button' class={indicatorButton} onClick={() => props.onSelect(panel)}>
                         <svg class={indicatorDot({ active: panel === props.activeIndex })} viewBox='0 0 16 16'>
@@ -20,7 +18,7 @@ const PanelIndicators = (props: PanelIndicatorsProps) => {
                         </svg>
                     </button>
                 )}
-            </For>
+            </Repeat>
         </nav>
     );
 };

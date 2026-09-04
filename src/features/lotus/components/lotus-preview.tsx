@@ -9,14 +9,16 @@ import type { LotusApp } from './types';
 export function LotusPreview() {
     const time = createLocalTime();
     const [query, setQuery] = createSignal('');
-    const [selectedId, setSelectedId] = createSignal<string | undefined>(previewApps[0].id);
     const [running, setRunning] = createSignal<ReadonlySet<string>>(new Set(previewApps.filter((app) => app.running).map((app) => app.id)));
     let searchInput: HTMLInputElement | undefined;
     const apps = createMemo(() => previewApps.map((app) => ({ ...app, running: running().has(app.id) })));
     const results = createMemo(() => filterApps(apps(), query()));
+    const [selectedId, setSelectedId] = createSignal<string | undefined>((previous) => {
+        const currentResults = results();
+        return currentResults.some((app) => app.id === previous) ? previous : currentResults[0]?.id;
+    });
     const changeQuery = (value: string) => {
         setQuery(value);
-        setSelectedId(filterApps(apps(), value)[0]?.id);
     };
     const activate = (app: LotusApp) => {
         setRunning((previous) => new Set([...previous, app.id]));

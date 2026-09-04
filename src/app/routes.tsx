@@ -2,11 +2,7 @@ import type { JSX } from '@solidjs/web';
 import { HomePage } from '@/features/home';
 import { LotusPage } from '@/features/lotus';
 import { centeredPage } from '@/shared/ui/page-shell';
-
-export interface PageMetadata {
-    description: string;
-    title: string;
-}
+import { defaultPageMetadata, type PageMetadata, pageTitle } from './site-metadata';
 
 interface SiteRoute {
     metadata: PageMetadata;
@@ -26,19 +22,19 @@ const unavailablePage = (title: string, message: string) => () => (
 const routes: SiteRoute[] = [
     {
         path: '/',
-        metadata: { title: 'broccol.ai', description: "broccolai's personal page" },
+        metadata: defaultPageMetadata,
         page: HomePage,
     },
     {
         path: '/lotus',
-        metadata: { title: 'Lotus | broccol.ai', description: 'Lotus dock and app search demo.' },
+        metadata: { title: pageTitle('lotus'), description: 'Lotus dock and app search demo.' },
         page: LotusPage,
     },
 ];
 
 const notFoundRoute: SiteRoute = {
     path: '',
-    metadata: { title: 'Page not found | broccol.ai', description: 'The requested page could not be found.' },
+    metadata: { title: pageTitle('Page not found'), description: 'The requested page could not be found.' },
     page: unavailablePage('Page not found', 'The requested page could not be found.'),
 };
 
