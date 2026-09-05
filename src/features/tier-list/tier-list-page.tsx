@@ -1,10 +1,20 @@
+import '@fontsource/instrument-serif/latin-400.css';
 import { cx } from '@panda/css';
-import { createMemo, createSignal, For, onSettled, Show } from 'solid-js';
-import { buckets, type dropTarget, type entry, type tier, tiers, totalEntries } from './model';
+import { createSignal, For, onSettled, Show } from 'solid-js';
+import { buckets, type dropTarget, type entry, type tier, tiers } from './model';
 import { useTierStore } from './store';
 import * as styles from './tier-list-page.styles';
 
-type drag = { pointerId: number; id: string; name: string; x: number; y: number; offsetX: number; offsetY: number; width: number };
+type drag = {
+    pointerId: number;
+    id: string;
+    name: string;
+    x: number;
+    y: number;
+    offsetX: number;
+    offsetY: number;
+    width: number;
+};
 type targetHit = { target: dropTarget };
 const overlayRect = (active: drag) => {
     const viewportMargin = 12;
@@ -50,7 +60,6 @@ const TierListPage = () => {
     let pointer: { x: number; y: number } | undefined;
     let scrollFrame: number | undefined;
     let importInput: HTMLInputElement | undefined;
-    const counts = createMemo(() => ({ total: totalEntries(store.state()), pool: store.state().POOL.length }));
 
     const cleanupDrag = () => {
         candidate = undefined;
@@ -139,7 +148,7 @@ const TierListPage = () => {
     const bucketBody = (bucket: tier) => {
         return (
             <div
-                class={cx(styles.dropzone, bucket === 'POOL' && isOver(bucket) && styles.activeDrop)}
+                class={cx(styles.dropzone, bucket === 'POOL' && isOver(bucket) && styles.activePool)}
                 data-drop-kind='end'
                 data-drop-tier={bucket}
             >
@@ -148,7 +157,7 @@ const TierListPage = () => {
                     <div class={styles.placeholder}>drop here</div>
                 </Show>
                 <Show when={bucket === 'POOL' && store.state().POOL.length === 0}>
-                    <div class={styles.placeholder}>standby</div>
+                    <div class={styles.emptyPool}>drop here or add entries below</div>
                 </Show>
             </div>
         );
@@ -157,7 +166,6 @@ const TierListPage = () => {
         <div class={cx(styles.row, isOver(bucket) && styles.activeDrop)} data-drop-kind='end' data-drop-tier={bucket}>
             <div class={styles.label}>{bucket}</div>
             {bucketBody(bucket)}
-            <div class={styles.rowMeta}>{String(store.state()[bucket].length).padStart(2, '0')}</div>
         </div>
     );
 
@@ -165,15 +173,7 @@ const TierListPage = () => {
         <main class={styles.page}>
             <div class={styles.sheet}>
                 <header class={styles.header}>
-                    <div class={styles.heroNav}>
-                        <span>broccoli</span>
-                        <span>tier list</span>
-                        <span>
-                            local / {String(counts().total).padStart(2, '0')} entries / {String(counts().pool).padStart(2, '0')} pool
-                        </span>
-                    </div>
                     <h1 class={styles.title}>tier list</h1>
-                    <div class={styles.headerMeta}>a small system for ranking what matters</div>
                 </header>
                 <div class={styles.body}>
                     <section class={styles.ranking}>
@@ -184,12 +184,10 @@ const TierListPage = () => {
                     <aside class={styles.sidebar}>
                         <section class={cx(styles.panel, styles.poolPanel)}>
                             <h2 class={styles.sectionHeading}>unranked</h2>
-                            <p class={styles.hint}>drag an entry into a tier to place it.</p>
                             <div class={styles.poolContent}>{bucketBody('POOL')}</div>
                         </section>
                         <form class={styles.panel} onSubmit={submit}>
                             <h2 class={styles.sectionHeading}>add entries</h2>
-                            <p class={styles.hint}>one entry per line.</p>
                             <div class={styles.intakeContent}>
                                 <textarea
                                     class={styles.textarea}
@@ -206,7 +204,7 @@ const TierListPage = () => {
                         <section class={cx(styles.panel, styles.utilityPanel)}>
                             <div class={styles.utilityContent}>
                                 <div class={cx(styles.voidBox, over()?.target.kind === 'void' && styles.activeVoid)} data-drop-kind='void'>
-                                    <span>drop to void</span>
+                                    <span>drop here to remove</span>
                                 </div>
                                 <nav class={styles.actionGrid}>
                                     <button
@@ -249,13 +247,6 @@ const TierListPage = () => {
                         </section>
                     </aside>
                 </div>
-                <footer class={styles.footer}>
-                    <span>broccoli / tier list</span>
-                    <span class={styles.footerCenter}>autosave active</span>
-                    <span class={styles.footerRight}>
-                        {String(counts().pool).padStart(2, '0')} pool / {String(counts().total).padStart(2, '0')} total
-                    </span>
-                </footer>
             </div>
             <input ref={importInput} class={styles.hiddenInput} type='file' accept='application/json,.json' onChange={handleImport} />
             <Show when={dragging()}>
