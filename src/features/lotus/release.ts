@@ -1,8 +1,13 @@
 import { createMemo } from 'solid-js';
+import type { Release, ReleasesResponse } from '@/shared/lotus-release';
 
 export const repositoryUrl = 'https://github.com/broccolai/lotus';
 const latestReleaseUrl = `${repositoryUrl}/releases/latest`;
-const fallbackRelease = {
+export interface ReleaseState extends ReleasesResponse {
+    status: 'loading' | 'ready' | 'error';
+}
+
+export const fallbackRelease: Release = {
     version: 'Latest release',
     releaseUrl: latestReleaseUrl,
     installerUrl: latestReleaseUrl,
@@ -10,73 +15,21 @@ const fallbackRelease = {
     publishedAt: '',
 };
 
-interface GitHubRelease {
-    tag_name: string;
-    html_url: string;
-    body: string | null;
-    published_at: string | null;
-    draft: boolean;
-    prerelease: boolean;
-    assets: { name: string; browser_download_url: string }[];
-}
-
-export interface Release {
-    version: string;
-    releaseUrl: string;
-    installerUrl: string;
-    body: string;
-    publishedAt: string;
-}
-
-function mapRelease(release: GitHubRelease): Release {
-    const installer = release.assets.find((asset) => asset.name.endsWith('-windows-x86_64-setup.exe'));
-    return {
-        version: release.tag_name,
-        releaseUrl: release.html_url,
-        installerUrl: installer?.browser_download_url ?? release.html_url,
-        body: release.body ?? '',
-        publishedAt: release.published_at ?? '',
-    };
-}
-
-export function createLatestRelease() {
+export function createReleases() {
+    const loadingValue: ReleaseState = { latest: fallbackRelease, releases: [], status: 'loading' };
     return createMemo(
-        async () => {
+        async (): Promise<ReleaseState> => {
             try {
-                const response = await fetch('https://api.github.com/repos/broccolai/lotus/releases/latest', {
-                    headers: { Accept: 'application/vnd.github+json' },
-                });
-                if (!response.ok) return fallbackRelease;
-
-                const latest: GitHubRelease = await response.json();
-                return mapRelease(latest);
+                const response = await fetch('/api/lotus/releases');
+                if (!response.ok) {
+                    return { latest: fallbackRelease, releases: [], status: 'error' };
+                }
+                const data: ReleasesResponse = await response.json();
+                return { ...data, status: 'ready' };
             } catch {
-                return fallbackRelease;
+                return { latest: fallbackRelease, releases: [], status: 'error' };
             }
         },
-        { loadingValue: fallbackRelease, ssrSource: 'client' },
-    );
-}
-
-export function createRecentReleases() {
-    return createMemo(
-        async () => {
-            try {
-                const response = await fetch('https://api.github.com/repos/broccolai/lotus/releases?per_page=30', {
-                    headers: { Accept: 'application/vnd.github+json' },
-                });
-                if (!response.ok) return [];
-
-                const releases: GitHubRelease[] = await response.json();
-                return releases
-                    .filter((release) => !release.draft && !release.prerelease && Number(release.tag_name.match(/^v?(\d+)\./)?.[1]) >= 1)
-                    .sort((left, right) => (right.published_at ?? '').localeCompare(left.published_at ?? ''))
-                    .slice(0, 10)
-                    .map(mapRelease);
-            } catch {
-                return [];
-            }
-        },
-        { loadingValue: [], ssrSource: 'client' },
+        { loadingValue, ssrSource: 'client' },
     );
 }

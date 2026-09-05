@@ -6,7 +6,7 @@
         "build": "bun run prepare && vite build",
         "start": "vite preview --host 0.0.0.0 --port 4321",
         "check": "tsc --noEmit",
-        "lint": "biome check src package.json tsconfig.json biome.json panda.config.ts vite.config.ts postcss.config.cjs",
+        "lint": "biome check src api config package.json tsconfig.json biome.json panda.config.ts vite.config.ts postcss.config.cjs",
         "format": "biome format --write ."
     },
     "type": "module",

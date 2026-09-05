@@ -1,9 +1,10 @@
 import { fileURLToPath, URL } from 'node:url';
 import solid from '@solidjs/vite-plugin';
 import { defineConfig } from 'vite';
+import { lotusReleases } from './config/lotus-releases';
 
 export default defineConfig({
-    plugins: [solid({ start: { app: 'src/app.tsx', document: 'src/document.tsx' } })],
+    plugins: [solid({ start: { app: 'src/app.tsx', document: 'src/document.tsx' } }), lotusReleases()],
     resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url)),

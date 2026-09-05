@@ -1,5 +1,5 @@
 import { For, Show } from 'solid-js';
-import type { Release } from '../release';
+import type { Release } from '@/shared/lotus-release';
 import {
     changelogBadge,
     changelogContent,
@@ -84,6 +84,7 @@ function formatDate(value: string) {
 
 export interface LotusChangelogProps {
     readonly releases: readonly Release[];
+    readonly status: 'loading' | 'ready' | 'error';
 }
 
 export function LotusChangelog(props: LotusChangelogProps) {
@@ -91,6 +92,15 @@ export function LotusChangelog(props: LotusChangelogProps) {
         <section class={[lotusSurface, changelogSurface]}>
             <h2 class={changelogTitle}>changelog</h2>
             <div class={changelogContent}>
+                <Show when={props.status === 'loading'}>
+                    <p class={changelogFallback}>loading release notes…</p>
+                </Show>
+                <Show when={props.status === 'error'}>
+                    <p class={changelogFallback}>release notes are unavailable right now.</p>
+                </Show>
+                <Show when={!props.releases.length && props.status === 'ready'}>
+                    <p class={changelogFallback}>no release notes are available.</p>
+                </Show>
                 <For each={props.releases}>
                     {(release) => {
                         const blocks = parseChangelog(release.body);

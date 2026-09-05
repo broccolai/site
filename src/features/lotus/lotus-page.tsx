@@ -22,11 +22,10 @@ import {
     lotusStage,
     lotusTrack,
 } from './lotus-page.styles';
-import { createLatestRelease, createRecentReleases, repositoryUrl } from './release';
+import { createReleases, repositoryUrl } from './release';
 
 export default function LotusPage() {
-    const release = createLatestRelease();
-    const releases = createRecentReleases();
+    const releases = createReleases();
     const [activePanel, setActivePanel] = createSignal(1);
     let container: HTMLDivElement | undefined;
     let header: HTMLElement | undefined;
@@ -83,7 +82,7 @@ export default function LotusPage() {
                     <img src='/lotus/lotus.png' alt='' width='28' height='28' />
                     lotus
                 </a>
-                <a class={downloadLink} href={release().installerUrl}>
+                <a class={downloadLink} href={releases().latest.installerUrl}>
                     <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'>
                         <path d='M12 3v12m0 0 4-4m-4 4-4-4M5 21h14' />
                     </svg>
@@ -106,7 +105,7 @@ export default function LotusPage() {
                         </div>
                     </section>
                     <section class={lotusPanel} inert={activePanel() === 1}>
-                        <LotusChangelog releases={releases().length ? releases() : [release()]} />
+                        <LotusChangelog releases={releases().releases} status={releases().status} />
                     </section>
                 </div>
             </div>
@@ -121,7 +120,7 @@ export default function LotusPage() {
                         })
                     }
                 >
-                    {activePanel() === 1 ? `${release().version} · what’s new ↓` : 'back to demo ↑'}
+                    {activePanel() === 1 ? `${releases().latest.version} · what’s new ↓` : 'back to demo ↑'}
                 </button>
                 <nav class={lotusFooterLinks}>
                     <a class={lotusFooterLink} href={repositoryUrl}>
