@@ -1,6 +1,6 @@
 import { cx } from '@panda/css';
 import { createMemo } from 'solid-js';
-import type { PanelController } from '@/features/home/panels/types';
+import type { PanelController } from '@/shared/panels/types';
 import { banner, bannerContent, header, headerTitle } from './home-header.styles';
 
 interface HomeHeaderProps {

@@ -44,7 +44,7 @@ export const createPanelModel = (options: PanelModelOptions) => {
 
     const goTo = (panel: number) => {
         const nextPanel = clamp(panel, 1, options.count);
-        if (disposed || transitioning || nextPanel === currentPanel) return;
+        if (disposed || transitioning || (nextPanel === currentPanel && currentTop === panelTop(nextPanel))) return;
 
         clearTransition();
         currentPanel = nextPanel;
@@ -81,6 +81,14 @@ export const createPanelModel = (options: PanelModelOptions) => {
         },
         restore: () => {
             if (!disposed) restore();
+        },
+        snap: () => {
+            if (disposed) return;
+            const height = options.getPanelHeight();
+            if (height <= 0) return;
+            const progress = (panelTop(currentPanel) - currentTop) / height;
+            const nextPanel = clamp(currentPanel + Math.sign(progress) * Math.floor(Math.abs(progress) + 0.6), 1, options.count);
+            goTo(nextPanel);
         },
         settle: (delta: number) => {
             if (disposed || transitioning) return;

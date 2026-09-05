@@ -9,5 +9,6 @@ export interface PanelController {
     isTransitioning: Accessor<boolean>;
     realign: () => void;
     restore: () => void;
+    snap: () => void;
     settle: (delta: number) => void;
 }

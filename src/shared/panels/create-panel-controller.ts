@@ -26,6 +26,7 @@ export const createPanelController = (count: number, getPanelHeight: () => numbe
         goTo: model.goTo,
         realign: model.realign,
         restore: model.restore,
+        snap: model.snap,
         settle: model.settle,
     };
 };

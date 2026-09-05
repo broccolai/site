@@ -1,5 +1,6 @@
 import { cx } from '@panda/css';
 import { onSettled } from 'solid-js';
+import { createPanelController } from '@/shared/panels/create-panel-controller';
 import Footer from './components/footer';
 import HomeHeader from './components/home-header';
 import PanelIndicators from './components/panel-indicators';
@@ -15,7 +16,6 @@ import {
     viewport,
     yellowPanel,
 } from './home-page.styles';
-import { createPanelController } from './panels/create-panel-controller';
 
 const panelCount = 3;
 

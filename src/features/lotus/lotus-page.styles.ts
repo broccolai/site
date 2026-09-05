@@ -4,11 +4,12 @@ export const lotusPage = css({
     isolation: 'isolate',
     width: '100%',
     overflowX: 'clip',
-    minHeight: '100dvh',
+    height: '100dvh',
     paddingTop: 'env(safe-area-inset-top)',
     paddingBottom: 'env(safe-area-inset-bottom)',
     display: 'grid',
-    gridTemplateRows: 'auto 1fr auto',
+    gridTemplateRows: 'auto minmax(0, 1fr) auto',
+    overflow: 'hidden',
     color: '#f7f8fb',
     backgroundColor: '#09101d',
     backgroundImage: 'url("/lotus/main-desktop-wallpaper.avif")',
@@ -28,7 +29,18 @@ export const lotusPage = css({
     },
 });
 export const lotusShell = css({ width: 'calc(100% - clamp(32px, 6vw, 96px))', marginInline: 'auto' });
-export const lotusHeader = css({ minHeight: '88px', display: 'flex', gap: '16px', alignItems: 'center', justifyContent: 'space-between' });
+export const lotusHeader = css({
+    position: 'absolute',
+    top: '0',
+    left: '0',
+    right: '0',
+    zIndex: '1',
+    minHeight: '88px',
+    display: 'flex',
+    gap: '16px',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+});
 export const lotusBrand = css({
     display: 'inline-flex',
     alignItems: 'center',
@@ -49,9 +61,39 @@ export const lotusStage = css({
     width: { base: 'calc(100% - 32px)', md: 'min(1440px, calc(100% - 64px))' },
     marginInline: 'auto',
     minWidth: '0',
+    minHeight: '100%',
+    boxSizing: 'border-box',
     paddingBlock: 'clamp(24px,5svh,64px)',
     '@media (min-width: 1280px)': { width: 'min(1440px,80vw)' },
 });
+export const lotusMiddle = css({
+    position: 'absolute',
+    inset: '0',
+    overflowY: 'auto',
+    scrollSnapType: 'y mandatory',
+    overscrollBehaviorY: 'none',
+    scrollbarWidth: 'none',
+    boxSizing: 'border-box',
+    '&::-webkit-scrollbar': { display: 'none' },
+});
+export const lotusTrack = css({
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+});
+export const lotusPanel = css({
+    width: '100%',
+    height: '100%',
+    minHeight: '0',
+    flexShrink: 0,
+    paddingTop: 'var(--lotus-header-height, 88px)',
+    paddingBottom: 'var(--lotus-footer-height, 64px)',
+    boxSizing: 'border-box',
+    overflow: 'hidden',
+    scrollSnapAlign: 'start',
+    scrollSnapStop: 'always',
+});
+export const lotusPanelContent = css({ height: '100%', overflowY: 'auto' });
 export const lotusCopy = css({
     position: 'relative',
     isolation: 'isolate',
@@ -93,6 +135,11 @@ export const lotusDemo = css({
     '@media (min-width: 2400px) and (min-height: 1200px)': { zoom: '1.65' },
 });
 export const lotusFooter = css({
+    position: 'absolute',
+    left: '0',
+    right: '0',
+    bottom: '0',
+    zIndex: '1',
     minHeight: '64px',
     display: 'flex',
     alignItems: 'center',
@@ -104,6 +151,15 @@ export const lotusFooter = css({
 });
 export const lotusFooterLink = css({ color: '#fff', textDecoration: 'none', _hover: { textDecoration: 'underline' } });
 export const lotusFooterLinks = css({ display: 'flex', alignItems: 'center', gap: '24px' });
+export const lotusFooterButton = css({
+    border: '0',
+    padding: '0',
+    color: '#fff',
+    background: 'none',
+    font: 'inherit',
+    cursor: 'pointer',
+    _hover: { textDecoration: 'underline' },
+});
 export const downloadLink = css({
     minHeight: '48px',
     display: 'inline-flex',
